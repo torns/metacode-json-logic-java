@@ -18,7 +18,7 @@ Metacode-json-logic-java 实现了 <https://jsonlogic.com> 部分规范, 适用�
 开始使用
 
 ```java
-    // Boolean Logic Rule
+    // Boolean Logic Rules
     Map<String, Object> data=new HashMap<>();
     data.put("b",10);
     data.put("c",Collections.singletonMap("cc",20));
@@ -26,11 +26,11 @@ Metacode-json-logic-java 实现了 <https://jsonlogic.com> 部分规范, 适用�
 
     assertTrue(logicNode.evaluator(BooleanLogicEvaluator::new).evaluate(data));
 
-// Sql Logic Rule
+// Sql Logic Rules
 //Todo...
 ```
 
-## Boolean Logic Rule
+## Boolean Logic Rules
 
 Example 1
 
@@ -66,6 +66,6 @@ data: {"b":10,"c":{"cc":20}} //a默认值是3
 result: true
 ```
 
-## Sql Logic Rule
+## Sql Logic Rules
 
 TODO
