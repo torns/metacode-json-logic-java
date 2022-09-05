@@ -19,15 +19,15 @@ Metacode-json-logic-java 实现了 <https://jsonlogic.com> 部分规范, 适用�
 
 ```java
     // Boolean Logic Rule
-    Map<String, Object> data = new HashMap<>();
-    data.put("b", 10);
-    data.put("c", Collections.singletonMap("cc", 20));
-    JsonLogicNode logicNode = JsonLogicParser.parse("{\"and\":[{\">\":[{\"var\":[\"a\",3]}, 2]},{\"<\":[1, {\"var\":\"b\"}]},{\"<\":[{\"var\":\"c.cc\"},21]}]}");
-    
+    Map<String, Object> data=new HashMap<>();
+    data.put("b",10);
+    data.put("c",Collections.singletonMap("cc",20));
+    JsonLogicNode logicNode=JsonLogicParser.parse("{\"and\":[{\">\":[{\"var\":[\"a\",3]}, 2]},{\"<\":[1, {\"var\":\"b\"}]},{\"<\":[{\"var\":\"c.cc\"},21]}]}");
+
     assertTrue(logicNode.evaluator(BooleanLogicEvaluator::new).evaluate(data));
-    
-    // Sql Logic Rule
-    //Todo...
+
+// Sql Logic Rule
+//Todo...
 ```
 
 ## Boolean Logic Rule
@@ -50,6 +50,8 @@ Example 2
 json: {"and":[{"and":[{">=":[3, 5]},{"<=":[1, 2]}]},{"or":[{">":[3, 2]},{"<":[1, 2]}]}]}
  // ((3 >= 5 and 1 <= 2) and (3 > 2) or (1 < 2))
 
+data : null
+
 result: true
 ```
 
@@ -58,6 +60,10 @@ Example 3
 ```shell
 json: {"and":[{">":[{"var":["a",3]}, 2]},{"<":[1, {"var":"b"}]},{"<":[{"var":"c.cc"},21]}]}
 // ((a > 2) and (1 < b)) and c.cc < 21
+
+data: {"b":10,"c":{"cc":20}} //a默认值是3
+
+result: true
 ```
 
 ## Sql Logic Rule
