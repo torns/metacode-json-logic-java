@@ -9,7 +9,7 @@ import java.util.List;
  * @date 2022/9/5
  */
 public class NumericComparisonExpression implements PreEvaluatedArgumentsExpression {
-    public static final NumericComparisonExpression EQ = new NumericComparisonExpression("==");
+
     public static final NumericComparisonExpression GT = new NumericComparisonExpression(">");
     public static final NumericComparisonExpression GTE = new NumericComparisonExpression(">=");
     public static final NumericComparisonExpression LT = new NumericComparisonExpression("<");
@@ -50,8 +50,6 @@ public class NumericComparisonExpression implements PreEvaluatedArgumentsExpress
         }
         // Handle regular comparisons
         switch (key) {
-            case "==":
-                return values[0] == values[1];
             case "<":
                 return values[0] < values[1];
 

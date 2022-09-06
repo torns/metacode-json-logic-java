@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface PreEvaluatedArgumentsExpression extends JsonLogicExpression {
 
-    Object evaluate(List arguments, Object Data) throws JsonLogicEvaluationException;
+    Object evaluate(List arguments, Object data) throws JsonLogicEvaluationException;
 
     @Override
 

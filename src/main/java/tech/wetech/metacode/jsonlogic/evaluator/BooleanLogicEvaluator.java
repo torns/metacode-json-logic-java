@@ -1,8 +1,11 @@
 package tech.wetech.metacode.jsonlogic.evaluator;
 
+import tech.wetech.metacode.jsonlogic.JsonLogic;
 import tech.wetech.metacode.jsonlogic.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.ast.*;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.EqualityExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.InequalityExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.expressions.LogicExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.expressions.NumericComparisonExpression;
 
@@ -19,7 +22,7 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
 
     private final JsonLogicNode root;
 
-    private static final List<JsonLogicExpression> expressions = new ArrayList<>();
+    private final List<JsonLogicExpression> expressions = new ArrayList<>();
 
 
     @Override
@@ -33,7 +36,9 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         addOperation(LogicExpression.AND);
         addOperation(LogicExpression.OR);
 
-        addOperation(NumericComparisonExpression.EQ);
+        addOperation(EqualityExpression.INSTANCE);
+        addOperation(InequalityExpression.INSTANCE);
+
         addOperation(NumericComparisonExpression.GT);
         addOperation(NumericComparisonExpression.GTE);
         addOperation(NumericComparisonExpression.LT);
@@ -54,7 +59,6 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         switch (primitive.getPrimitiveType()) {
             case NUMBER:
                 return ((JsonLogicNumber) primitive).getValue();
-
             default:
                 return primitive.getValue();
         }
@@ -78,7 +82,7 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         if (key instanceof Number) {
             int index = ((Number) key).intValue();
 
-            if (isEligible(data)) {
+            if (JsonLogic.isEligible(data)) {
                 List list = (List) data;
 
                 if (index >= 0 && index < list.size()) {
@@ -114,12 +118,9 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         throw new JsonLogicEvaluationException("var first argument must be null, number, or string");
     }
 
-    private boolean isEligible(Object data) {
-        return data != null && (data instanceof Iterable || data.getClass().isArray());
-    }
 
     private Object evaluatePartialVariable(String key, Object data) throws JsonLogicEvaluationException {
-        if (isEligible(data)) {
+        if (JsonLogic.isEligible(data)) {
             List list = (List) data;
             int index;
 

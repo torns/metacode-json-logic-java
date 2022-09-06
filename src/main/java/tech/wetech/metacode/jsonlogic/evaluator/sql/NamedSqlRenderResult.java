@@ -1,0 +1,11 @@
+package tech.wetech.metacode.jsonlogic.evaluator.sql;
+
+import java.util.Map;
+
+/**
+ * @author cjbi
+ * @date 2022/9/6
+ */
+public record NamedSqlRenderResult(String whereClause, Map<String, Object> args) implements SqlRenderResult {
+
+}

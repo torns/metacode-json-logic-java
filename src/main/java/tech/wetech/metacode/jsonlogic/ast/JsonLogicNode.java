@@ -14,5 +14,4 @@ public interface JsonLogicNode {
     default <R extends JsonLogicEvaluator> R evaluator(Function<JsonLogicNode, R> function) {
         return function.apply(this);
     }
-
 }
