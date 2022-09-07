@@ -22,5 +22,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Generate settings.xml for Maven Builds
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/OWNER/REPOSITORY" }, "snapshots": { "enabled" : true } ]'
+        servers: '[{ "id": "github", "username": "cjbi", "password": "${{ secrets.GITHUB_TOKEN }}" }]'
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn clean deploy
