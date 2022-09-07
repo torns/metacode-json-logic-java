@@ -32,6 +32,8 @@ public class SqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
+            case TABLE_FIELD:
+                return evaluate((JsonLogicTableField) node, data);
             default:
                 return this.evaluate((JsonLogicOperation) node, data);
         }

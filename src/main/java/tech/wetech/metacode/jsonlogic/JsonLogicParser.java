@@ -42,7 +42,7 @@ public class JsonLogicParser {
         }
     }
 
-    private static JsonLogicNode parse(JsonNode root) {
+    private static JsonLogicNode parse(JsonNode root) throws JsonLogicParseException {
 
         if (root.isNull()) {
             return JsonLogicNull.NULL;
@@ -86,6 +86,13 @@ public class JsonLogicParser {
         if ("var".equals(key)) {
             JsonLogicNode defaultValue = arguments.size() > 1 ? arguments.get(1) : JsonLogicNull.NULL;
             return new JsonLogicVariable(arguments.size() < 1 ? JsonLogicNull.NULL : arguments.get(0), defaultValue);
+        }
+
+        if ("table_field".equals(key)) {
+            if (arguments.size() != 2) {
+                throw new JsonLogicParseException("table_field expressions expect exactly 2 arguments");
+            }
+            return new JsonLogicTableField(arguments.get(0), arguments.get(1));
         }
 
         return new JsonLogicOperation(key, arguments);

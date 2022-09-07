@@ -15,8 +15,8 @@ public class SqlRendererJsonLogicTests {
 
     @Test
     void testIndex() throws JsonLogicException {
-        //{"and":[{">":[{"var":["id",3]}, 2]},{"==":["jack", {"var":"user.name"}]},{"<":[{"var":"user.age"},21]}]}
-        JsonLogicNode logicNode = JsonLogicParser.parse("{\"or\":[ {\"and\":[{\">\":[{\"var\":[\"id\",3]}, 2]},{\"==\":[\"jack\", {\"var\":\"user.name\"}]},{\"<\":[{\"var\":\"user.age\"},21]}]}, {\"and\":[{\">\":[{\"var\":[\"id\",3]}, 2]},{\"==\":[\"jack\", {\"var\":\"user.name\"}]},{\"<\":[{\"var\":\"user.age\"},21]}]}, {\"and\":[{\">\":[{\"var\":[\"id\",3]}, 2]},{\"==\":[\"mark\", {\"var\":\"user.name\"}]},{\"<\":[{\"var\":\"user.age\"},21]}]} ]}");
+        //{"and":[{">":[{"table_field":["user","id"]}, 2]},{"==":["jack", {"table_field":["user","name"]}]},{"<":[{"table_field":["user","age"]},21]}]}
+        JsonLogicNode logicNode = JsonLogicParser.parse("{\"and\":[{\">\":[{\"table_field\":[\"user\",\"id\"]}, 2]},{\"==\":[\"jack\", {\"table_field\":[\"user\",\"name\"]}]},{\"<\":[{\"table_field\":[\"user\",\"age\"]},21]}]}");
         IndexSqlRenderResult renderResult = logicNode.evaluator(SqlRenderLogicEvaluator::new).evaluate();
         System.out.println(renderResult.whereClause());
         for (Object arg : renderResult.args()) {
@@ -26,8 +26,8 @@ public class SqlRendererJsonLogicTests {
 
     @Test
     void testNamed() throws JsonLogicException {
-//{"and":[{">":[{"var":["id",3]}, 2]},{"==":["jack", {"var":"user.name"}]},{"<":[{"var":"user.age"},21]}]}
-        JsonLogicNode logicNode = JsonLogicParser.parse("{\"or\":[ {\"and\":[{\">\":[{\"var\":[\"id\",3]}, 2]},{\"==\":[\"jack\", {\"var\":\"user.name\"}]},{\"<\":[{\"var\":\"user.age\"},21]}]}, {\"and\":[{\">\":[{\"var\":[\"id\",3]}, 2]},{\"==\":[\"jack\", {\"var\":\"user.name\"}]},{\"<\":[{\"var\":\"user.age\"},21]}]}, {\"and\":[{\">\":[{\"var\":[\"id\",3]}, 2]},{\"==\":[\"mark\", {\"var\":\"user.name\"}]},{\"==\":[1,1]}]} ]}");
+//{"and":[{">":[{"table_field":["id",3]}, 2]},{"==":["jack", {"table_field":"user.name"}]},{"<":[{"table_field":"user.age"},21]}]}
+        JsonLogicNode logicNode = JsonLogicParser.parse("{ \"or\": [ { \"and\": [ { \">\": [ { \"table_field\": [ \"user\", \"id\" ] }, 2 ] }, { \"==\": [ \"jack\", { \"table_field\": [ \"user\", \"name\" ] } ] }, { \"<\": [ { \"table_field\": [ \"user\", \"age\" ] }, 21 ] } ] }, { \"and\": [ { \">\": [ { \"table_field\": [ \"user\", \"id\" ] }, 2 ] }, { \"==\": [ \"jack\", { \"table_field\": [ \"user\", \"name\" ] } ] }, { \"<\": [ { \"table_field\": [ \"user\", \"age\" ] }, 21 ] } ] }, { \"and\": [ { \">\": [ { \"var\": [ \"id\", 3 ] }, 2 ] }, { \"==\": [ \"mark\", { \"table_field\": [ \"user\", \"name\" ] } ] }, { \"==\": [ 1, 1 ] } ] } ] }");
         NamedSqlRenderResult renderResult = logicNode.evaluator(NamedSqlRenderLogicEvaluator::new).evaluate();
         System.out.println(renderResult.whereClause());
         renderResult.args().forEach((key, value) -> System.out.println(key + ": " + value));

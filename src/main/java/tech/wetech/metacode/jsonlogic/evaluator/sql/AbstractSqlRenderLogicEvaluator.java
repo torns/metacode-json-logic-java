@@ -1,10 +1,7 @@
 package tech.wetech.metacode.jsonlogic.evaluator.sql;
 
 import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicNumber;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicPrimitive;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicVariable;
+import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.AssignmentAndComparisonSqlRenderExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.LogicSqlRenderExpression;
@@ -44,6 +41,12 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
             default:
                 return primitive.getValue();
         }
+    }
+
+    public Object evaluate(JsonLogicTableField tableField, Object data) {
+        String table = (String) evaluate((JsonLogicPrimitive<?>) tableField.getTable(), data);
+        String field = (String) evaluate((JsonLogicPrimitive<?>) tableField.getField(), data);
+        return table + "." + field;
     }
 
     public Object evaluate(JsonLogicVariable variable, Object data) {

@@ -32,10 +32,13 @@ public class NamedSqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluato
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
+            case TABLE_FIELD:
+                return evaluate((JsonLogicTableField) node, data);
             default:
                 return this.evaluate((JsonLogicOperation) node, data);
         }
     }
+
 
     public NamedSqlRenderResult evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
         JsonLogicExpression expression = getExpression(operation.getOperator());

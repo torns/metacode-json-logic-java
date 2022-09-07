@@ -9,4 +9,5 @@ public enum JsonLogicNodeType {
     VARIABLE,
     ARRAY,
     OPERATION,
+    TABLE_FIELD,
 }

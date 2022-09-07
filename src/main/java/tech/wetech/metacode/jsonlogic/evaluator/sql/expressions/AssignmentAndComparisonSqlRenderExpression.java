@@ -5,7 +5,7 @@ import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicArray;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicPrimitive;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicVariable;
+import tech.wetech.metacode.jsonlogic.ast.JsonLogicTableField;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.PlaceholderHandler;
 
@@ -58,8 +58,8 @@ public class AssignmentAndComparisonSqlRenderExpression implements JsonLogicExpr
 
 
     private String getAlias(JsonLogicEvaluator evaluator, JsonLogicNode element) throws JsonLogicEvaluationException {
-        if (element instanceof JsonLogicVariable variable) {
-            return (String) evaluator.evaluate(variable.getKey(), null);
+        if (element instanceof JsonLogicTableField tableField) {
+            return (String) evaluator.evaluate(tableField, null);
         }
         return Integer.toHexString(element.hashCode());
     }
