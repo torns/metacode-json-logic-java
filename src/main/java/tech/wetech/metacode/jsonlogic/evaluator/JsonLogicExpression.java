@@ -1,7 +1,5 @@
 package tech.wetech.metacode.jsonlogic.evaluator;
 
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluationException;
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicArray;
 
 /**

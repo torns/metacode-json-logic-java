@@ -1,8 +1,6 @@
 package tech.wetech.metacode.jsonlogic.evaluator;
 
 import tech.wetech.metacode.jsonlogic.JsonLogic;
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluationException;
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.expressions.EqualityExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.expressions.InequalityExpression;

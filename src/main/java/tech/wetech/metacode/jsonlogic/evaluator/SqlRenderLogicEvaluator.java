@@ -1,6 +1,5 @@
 package tech.wetech.metacode.jsonlogic.evaluator;
 
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.AbstractSqlRenderLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.IndexPlaceholderHandler;

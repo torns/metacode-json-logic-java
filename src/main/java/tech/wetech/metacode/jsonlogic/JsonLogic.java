@@ -1,13 +1,22 @@
 package tech.wetech.metacode.jsonlogic;
 
+import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
+import tech.wetech.metacode.jsonlogic.ast.JsonLogicParser;
+import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.function.Function;
 
 /**
  * @author cjbi
  * @date 2022/9/6
  */
 public class JsonLogic {
+
+    public static <R extends JsonLogicEvaluator> R apply(String json, Function<JsonLogicNode, R> evaluator) throws JsonLogicException {
+        return evaluator.apply(JsonLogicParser.parse(json));
+    }
 
     public static boolean truthy(Object value) {
         if (value == null) {

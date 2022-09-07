@@ -1,4 +1,4 @@
-package tech.wetech.metacode.jsonlogic;
+package tech.wetech.metacode.jsonlogic.ast;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

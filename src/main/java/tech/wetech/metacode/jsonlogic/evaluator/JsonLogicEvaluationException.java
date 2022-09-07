@@ -1,4 +1,6 @@
-package tech.wetech.metacode.jsonlogic;
+package tech.wetech.metacode.jsonlogic.evaluator;
+
+import tech.wetech.metacode.jsonlogic.JsonLogicException;
 
 /**
  * @author cjbi

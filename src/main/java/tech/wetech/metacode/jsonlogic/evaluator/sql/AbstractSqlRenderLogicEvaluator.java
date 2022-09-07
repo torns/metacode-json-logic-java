@@ -1,6 +1,6 @@
 package tech.wetech.metacode.jsonlogic.evaluator.sql;
 
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
+import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.AssignmentAndComparisonSqlRenderExpression;

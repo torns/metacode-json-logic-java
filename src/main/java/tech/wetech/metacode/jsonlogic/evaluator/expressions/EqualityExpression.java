@@ -1,7 +1,7 @@
 package tech.wetech.metacode.jsonlogic.evaluator.expressions;
 
 import tech.wetech.metacode.jsonlogic.JsonLogic;
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluationException;
+import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
 
 import java.util.List;
 

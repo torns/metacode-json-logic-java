@@ -1,6 +1,6 @@
 package tech.wetech.metacode.jsonlogic.ast;
 
-import tech.wetech.metacode.jsonlogic.JsonLogicEvaluator;
+import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 
 import java.util.function.Function;
 
@@ -11,7 +11,7 @@ import java.util.function.Function;
 public interface JsonLogicNode {
     JsonLogicNodeType getType();
 
-    default <R extends JsonLogicEvaluator> R evaluator(Function<JsonLogicNode, R> function) {
-        return function.apply(this);
+    default <R extends JsonLogicEvaluator> R evaluator(Function<JsonLogicNode, R> evaluator) {
+        return evaluator.apply(this);
     }
 }
