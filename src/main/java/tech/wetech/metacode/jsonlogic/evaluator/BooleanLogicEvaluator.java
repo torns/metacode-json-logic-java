@@ -148,8 +148,14 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         for (JsonLogicNode element : array) {
             values.add(evaluate(element, data));
         }
-
         return values;
+    }
+
+    public Object evaluate(JsonLogicTableField node, Object data) throws JsonLogicEvaluationException {
+        if (data instanceof Map m) {
+            return ((Map) m.get(evaluate(node.getTable(), data))).get(evaluate(node.getField(), data));
+        }
+        return null;
     }
 
     @Override
@@ -161,6 +167,8 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
+            case TABLE_FIELD:
+                return evaluate((JsonLogicTableField) node, data);
             default:
                 return evaluate((JsonLogicOperation) node, data);
         }
