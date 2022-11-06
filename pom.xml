@@ -44,7 +44,7 @@
         <repository>
             <id>github</id>
             <name>GitHub MetaCode Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/meta-code-org/metacode-maven-packages</url>
+            <url>https://maven.pkg.github.com/metacode-project/metacode-maven-packages</url>
         </repository>
     </distributionManagement>
     <build>
