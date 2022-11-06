@@ -1,10 +1,9 @@
 package tech.wetech.metacode.jsonlogic.evaluator.sql.expressions;
 
-import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
-import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicArray;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
-import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
+import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.PlaceholderHandler;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.SqlRenderResult;
 
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
  * @author cjbi
  * @date 2022/9/6
  */
-public class LogicSqlRenderExpression implements JsonLogicExpression {
+public class LogicSqlRenderExpression implements SqlRenderExpression {
 
     public static final LogicSqlRenderExpression AND = new LogicSqlRenderExpression(true);
     public static final LogicSqlRenderExpression OR = new LogicSqlRenderExpression(false);
@@ -44,7 +43,7 @@ public class LogicSqlRenderExpression implements JsonLogicExpression {
         }
         String whereClause = list.stream()
             .map(SqlRenderResult::whereClause)
-            .collect(Collectors.joining(" " + key(), " (", " )"));
+            .collect(Collectors.joining(" " + key() + " ", " (", " )"));
         return whereClause;
     }
 }

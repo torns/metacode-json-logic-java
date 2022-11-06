@@ -5,17 +5,16 @@ import tech.wetech.metacode.jsonlogic.evaluator.sql.AbstractSqlRenderLogicEvalua
 import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedPlaceholderHandler;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 
+import java.util.Map;
+
 /**
  * @author cjbi
  * @date 2022/9/7
  */
 public class NamedSqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
 
-    private final NamedPlaceholderHandler placeholderHandler;
-
     public NamedSqlRenderLogicEvaluator(JsonLogicNode root) {
-        super(root);
-        this.placeholderHandler = new NamedPlaceholderHandler();
+        super(root, new NamedPlaceholderHandler());
     }
 
     public NamedSqlRenderResult evaluate() throws JsonLogicEvaluationException {
@@ -34,15 +33,14 @@ public class NamedSqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluato
             case TABLE_FIELD:
                 return evaluate((JsonLogicTableField) node, data);
             default:
-                return this.evaluate((JsonLogicOperation) node, data);
+                return evaluate((JsonLogicOperation) node, data);
         }
     }
-
 
     public NamedSqlRenderResult evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
         JsonLogicExpression expression = getExpression(operation.getOperator());
         String whereClause = (String) expression.evaluate(this, operation.getArguments(), placeholderHandler);
-        return new NamedSqlRenderResult(whereClause, placeholderHandler.getParameters());
+        return new NamedSqlRenderResult(whereClause, (Map<String, Object>) getPlaceholderHandler().getParameters());
     }
 
 }

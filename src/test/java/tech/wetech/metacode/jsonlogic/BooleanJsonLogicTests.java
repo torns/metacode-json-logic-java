@@ -1,6 +1,6 @@
+package tech.wetech.metacode.jsonlogic;
+
 import org.junit.jupiter.api.Test;
-import tech.wetech.metacode.jsonlogic.JsonLogic;
-import tech.wetech.metacode.jsonlogic.JsonLogicException;
 import tech.wetech.metacode.jsonlogic.evaluator.BooleanLogicEvaluator;
 
 import java.util.Collections;
@@ -25,7 +25,7 @@ public class BooleanJsonLogicTests {
     }
 
     @Test
-    public void testAnd() throws JsonLogicException {
+    void testAnd() throws JsonLogicException {
         String json = """
             { "and": [{ ">": [3, 2] }, { "<": [1, 2] }] }
             """;

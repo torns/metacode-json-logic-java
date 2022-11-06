@@ -14,7 +14,7 @@ public class SqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
     private IndexPlaceholderHandler placeholderHandler;
 
     public SqlRenderLogicEvaluator(JsonLogicNode root) {
-        super(root);
+        super(root, new IndexPlaceholderHandler());
         this.placeholderHandler = new IndexPlaceholderHandler();
     }
 

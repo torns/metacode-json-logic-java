@@ -1,6 +1,6 @@
+package tech.wetech.metacode.jsonlogic;
+
 import org.junit.jupiter.api.Test;
-import tech.wetech.metacode.jsonlogic.JsonLogic;
-import tech.wetech.metacode.jsonlogic.JsonLogicException;
 import tech.wetech.metacode.jsonlogic.evaluator.NamedSqlRenderLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.SqlRenderLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.IndexSqlRenderResult;
