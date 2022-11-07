@@ -2,10 +2,7 @@ package tech.wetech.metacode.jsonlogic.evaluator;
 
 import tech.wetech.metacode.jsonlogic.JsonLogic;
 import tech.wetech.metacode.jsonlogic.ast.*;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.EqualityExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.InequalityExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.LogicExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.NumericComparisonExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,15 +39,21 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         addOperation(NumericComparisonExpression.LT);
         addOperation(NumericComparisonExpression.LTE);
 
+        addOperation(TableFieldExpression.INSTANCE);
+
+        addOperation(ContainsExpression.CONTAINS);
+        addOperation(ContainsExpression.NOT_CONTAINS);
+
+        addOperation(MultipleExpression.INSTANCE);
     }
 
     public Boolean evaluate(Object data) throws JsonLogicEvaluationException {
-        return evaluate((JsonLogicOperation) root, data);
+        return (Boolean) evaluate((JsonLogicOperation) root, data);
     }
 
-    public Boolean evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
+    public Object evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
         JsonLogicExpression expression = getExpression(operation.getOperator());
-        return (Boolean) expression.evaluate(this, operation.getArguments(), data);
+        return expression.evaluate(this, operation.getArguments(), data);
     }
 
     public Object evaluatePrimitive(JsonLogicPrimitive<?> primitive) {
@@ -151,13 +154,6 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         return values;
     }
 
-    public Object evaluate(JsonLogicTableField node, Object data) throws JsonLogicEvaluationException {
-        if (data instanceof Map m) {
-            return ((Map) m.get(evaluate(node.getTable(), data))).get(evaluate(node.getField(), data));
-        }
-        return null;
-    }
-
     @Override
     public Object evaluate(JsonLogicNode node, Object data) throws JsonLogicEvaluationException {
         switch (node.getType()) {
@@ -167,8 +163,6 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
-            case TABLE_FIELD:
-                return evaluate((JsonLogicTableField) node, data);
             default:
                 return evaluate((JsonLogicOperation) node, data);
         }

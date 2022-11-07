@@ -19,7 +19,7 @@ public class SqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
     }
 
     public IndexSqlRenderResult evaluate() throws JsonLogicEvaluationException {
-        return evaluate((JsonLogicOperation) root, null);
+        return new IndexSqlRenderResult((String) evaluate((JsonLogicOperation) root, null), placeholderHandler.getParameters());
     }
 
     @Override
@@ -31,16 +31,13 @@ public class SqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
-            case TABLE_FIELD:
-                return evaluate((JsonLogicTableField) node, data);
             default:
                 return this.evaluate((JsonLogicOperation) node, data);
         }
     }
 
-    public IndexSqlRenderResult evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
+    public Object evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
         JsonLogicExpression expression = getExpression(operation.getOperator());
-        String whereClause = (String) expression.evaluate(this, operation.getArguments(), placeholderHandler);
-        return new IndexSqlRenderResult(whereClause, placeholderHandler.getParameters());
+        return expression.evaluate(this, operation.getArguments(), placeholderHandler);
     }
 }

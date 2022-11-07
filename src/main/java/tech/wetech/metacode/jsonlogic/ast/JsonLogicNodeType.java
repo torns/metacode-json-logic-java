@@ -8,6 +8,5 @@ public enum JsonLogicNodeType {
     PRIMITIVE,
     VARIABLE,
     ARRAY,
-    OPERATION,
-    TABLE_FIELD,
+    OPERATION
 }

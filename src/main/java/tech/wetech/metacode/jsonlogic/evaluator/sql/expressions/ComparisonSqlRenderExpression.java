@@ -1,7 +1,6 @@
 package tech.wetech.metacode.jsonlogic.evaluator.sql.expressions;
 
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicArray;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.PlaceholderHandler;
@@ -42,14 +41,15 @@ public class ComparisonSqlRenderExpression implements SqlRenderExpression {
     @Override
     public <T extends JsonLogicEvaluator> String evaluate(T evaluator, JsonLogicArray arguments, Object data) throws JsonLogicEvaluationException {
         PlaceholderHandler placeholderHandler = (PlaceholderHandler) data;
-        JsonLogicNode left = arguments.get(0);
-        JsonLogicNode right = arguments.get(1);
+        Object left = evaluator.evaluate(arguments.get(0), data);
+        Object right = evaluator.evaluate(arguments.get(1), data);
+
         StringBuilder sb = new StringBuilder(" ");
-        sb.append(handle(evaluator, data, placeholderHandler, left, getAlias(evaluator, right)));
+        sb.append(handlePlace(placeholderHandler, arguments.get(0), right, left));
         sb.append(" ");
         sb.append(OPERATOR_MAP.getOrDefault(key, key));
         sb.append(" ");
-        sb.append(handle(evaluator, data, placeholderHandler, right, getAlias(evaluator, left)));
+        sb.append(handlePlace(placeholderHandler, arguments.get(1), left, right));
         return sb.toString();
     }
 

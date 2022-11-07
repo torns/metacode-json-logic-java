@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import tech.wetech.metacode.jsonlogic.ast.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +74,6 @@ public class JsonLogicParser {
 
         String key = root.fieldNames().next();
         JsonLogicNode argumentNode = parse(root.get(key));
-
         JsonLogicArray arguments;
         if (argumentNode instanceof JsonLogicArray) {
             arguments = (JsonLogicArray) argumentNode;
@@ -86,13 +84,6 @@ public class JsonLogicParser {
         if ("var".equals(key)) {
             JsonLogicNode defaultValue = arguments.size() > 1 ? arguments.get(1) : JsonLogicNull.NULL;
             return new JsonLogicVariable(arguments.size() < 1 ? JsonLogicNull.NULL : arguments.get(0), defaultValue);
-        }
-
-        if ("table_field".equals(key)) {
-            if (arguments.size() != 2) {
-                throw new JsonLogicParseException("table_field expressions expect exactly 2 arguments");
-            }
-            return new JsonLogicTableField(arguments.get(0), arguments.get(1));
         }
 
         return new JsonLogicOperation(key, arguments);

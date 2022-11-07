@@ -1,7 +1,6 @@
 package tech.wetech.metacode.jsonlogic.evaluator.sql.expressions;
 
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicArray;
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.PlaceholderHandler;
@@ -33,32 +32,27 @@ public class ContainsExpression implements SqlRenderExpression {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends JsonLogicEvaluator> Object evaluate(T evaluator, JsonLogicArray arguments, Object data) throws JsonLogicEvaluationException {
-        JsonLogicNode left = arguments.get(0);
-        JsonLogicNode right = arguments.get(1);
-        if (right instanceof List list) {
+        Object left = evaluator.evaluate(arguments.get(0), data);
+        Object right = evaluator.evaluate(arguments.get(1), data);
+        if (right instanceof List<?> list) {
             if (list.isEmpty()) {
                 return TRUE;
             }
             return list.stream()
-                .map(element -> getSingle(evaluator, data, left, element))
+                .map(element -> getSingle((PlaceholderHandler) data, left, right, isTableFieldExpression(arguments.get(1))))
                 .collect(Collectors.joining(" and ", " (", ") "));
         }
-        return getSingle(evaluator, data, left, right);
+        return getSingle((PlaceholderHandler) data, left, right, isTableFieldExpression(arguments.get(1)));
     }
 
-    public String getSingle(JsonLogicEvaluator evaluator, Object data, Object left, Object right) {
-        try {
-            PlaceholderHandler placeholderHandler = (PlaceholderHandler) data;
-            StringBuilder sb = new StringBuilder(" ");
-            sb.append(handle(evaluator, data, placeholderHandler, left, getAlias(evaluator, right)));
-            sb.append(" ");
-            sb.append(isNot ? "not like" : "like");
-            sb.append(" ");
-            sb.append("concat('%', concat(").append(handle(evaluator, data, placeholderHandler, right, getAlias(evaluator, left))).append(",'%'))");
-            return sb.toString();
-        } catch (JsonLogicEvaluationException e) {
-            return TRUE;
-        }
+    public String getSingle(PlaceholderHandler placeholderHandler, Object left, Object right, boolean rightIsTableField) {
+        StringBuilder sb = new StringBuilder(" ");
+        sb.append(left);
+        sb.append(" ");
+        sb.append(isNot ? "not like" : "like");
+        sb.append(" ");
+        sb.append("concat('%', concat(").append(rightIsTableField ? right : placeholderHandler.handle(left.toString(), right)).append(",'%'))");
+        return sb.toString();
     }
 
 }

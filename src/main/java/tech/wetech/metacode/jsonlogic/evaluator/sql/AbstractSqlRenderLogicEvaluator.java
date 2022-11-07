@@ -4,9 +4,8 @@ import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.ComparisonSqlRenderExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.ContainsExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.LogicSqlRenderExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.MultipleExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,12 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
 
         addOperation(ContainsExpression.CONTAINS);
         addOperation(ContainsExpression.NOT_CONTAINS);
+
+        addOperation(TableFieldExpression.INSTANCE);
+
+        addOperation(DatetimeExpression.INSTANCE);
+
+        addOperation(MultipleExpression.INSTANCE);
     }
 
     public Object evaluate(JsonLogicPrimitive<?> primitive, Object data) {
@@ -51,12 +56,6 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
         }
     }
 
-    public Object evaluate(JsonLogicTableField tableField, Object data) {
-        String table = (String) evaluate((JsonLogicPrimitive<?>) tableField.getTable(), data);
-        String field = (String) evaluate((JsonLogicPrimitive<?>) tableField.getField(), data);
-        return table + "." + field;
-    }
-
     public Object evaluate(JsonLogicVariable variable, Object data) {
         return evaluate((JsonLogicPrimitive) variable.getKey(), data);
     }
@@ -64,7 +63,7 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
     public List<Object> evaluate(JsonLogicArray array, Object data) throws JsonLogicEvaluationException {
         List<Object> values = new ArrayList<>(array.size());
 
-        for(JsonLogicNode element : array) {
+        for (JsonLogicNode element : array) {
             values.add(evaluate(element, data));
         }
         return values;

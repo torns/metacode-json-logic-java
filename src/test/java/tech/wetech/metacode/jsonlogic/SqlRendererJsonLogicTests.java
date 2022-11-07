@@ -62,7 +62,7 @@ public class SqlRendererJsonLogicTests {
             """;
         NamedSqlRenderResult renderResult = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
         assertNotNull(renderResult.whereClause());
-        assertEquals(10, renderResult.args().size());
+        assertEquals(11, renderResult.args().size());
     }
 
 

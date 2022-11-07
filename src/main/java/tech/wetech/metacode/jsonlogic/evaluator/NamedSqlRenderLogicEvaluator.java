@@ -18,7 +18,9 @@ public class NamedSqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluato
     }
 
     public NamedSqlRenderResult evaluate() throws JsonLogicEvaluationException {
-        return evaluate((JsonLogicOperation) root, null);
+        Object sql = evaluate((JsonLogicOperation) root, null);
+        placeholderHandler.getParameters();
+        return new NamedSqlRenderResult((String) sql, (Map<String, Object>) placeholderHandler.getParameters());
     }
 
     @Override
@@ -30,17 +32,15 @@ public class NamedSqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluato
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
-            case TABLE_FIELD:
-                return evaluate((JsonLogicTableField) node, data);
             default:
                 return evaluate((JsonLogicOperation) node, data);
         }
     }
 
-    public NamedSqlRenderResult evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
+    public Object evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
         JsonLogicExpression expression = getExpression(operation.getOperator());
-        String whereClause = (String) expression.evaluate(this, operation.getArguments(), placeholderHandler);
-        return new NamedSqlRenderResult(whereClause, (Map<String, Object>) getPlaceholderHandler().getParameters());
+        return expression.evaluate(this, operation.getArguments(), placeholderHandler);
+
     }
 
 }

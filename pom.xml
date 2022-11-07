@@ -13,6 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <slf4j.version>1.7.30</slf4j.version>
         <jackson.version>2.13.3</jackson.version>
+        <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,6 +50,10 @@
     </distributionManagement>
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
