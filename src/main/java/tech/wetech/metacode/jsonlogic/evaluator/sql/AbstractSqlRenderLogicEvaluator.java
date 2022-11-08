@@ -4,10 +4,7 @@ import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.AttachExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.DatetimeExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.MultipleExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.expressions.RadioExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.*;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.ComparisonSqlRenderExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.ContainsExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.LogicSqlRenderExpression;
@@ -51,6 +48,7 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
         addOperation(DatetimeExpression.INSTANCE);
         addOperation(MultipleExpression.INSTANCE);
         addOperation(AttachExpression.INSTANCE);
+        addOperation(IdentifierExpression.INSTANCE);
     }
 
     public Object evaluate(JsonLogicPrimitive<?> primitive, Object data) {

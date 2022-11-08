@@ -48,6 +48,7 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         addOperation(DatetimeExpression.INSTANCE);
         addOperation(MultipleExpression.INSTANCE);
         addOperation(AttachExpression.INSTANCE);
+        addOperation(IdentifierExpression.INSTANCE);
     }
 
     public Boolean evaluate(Object data) throws JsonLogicEvaluationException {
