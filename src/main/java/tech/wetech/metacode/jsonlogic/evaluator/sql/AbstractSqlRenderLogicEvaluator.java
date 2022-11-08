@@ -4,8 +4,14 @@ import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluationException;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.AttachExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.DatetimeExpression;
 import tech.wetech.metacode.jsonlogic.evaluator.expressions.MultipleExpression;
-import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.*;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.RadioExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.ComparisonSqlRenderExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.ContainsExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.LogicSqlRenderExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.expressions.TableFieldExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +47,10 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
 
         addOperation(TableFieldExpression.INSTANCE);
 
+        addOperation(RadioExpression.INSTANCE);
         addOperation(DatetimeExpression.INSTANCE);
-
         addOperation(MultipleExpression.INSTANCE);
+        addOperation(AttachExpression.INSTANCE);
     }
 
     public Object evaluate(JsonLogicPrimitive<?> primitive, Object data) {

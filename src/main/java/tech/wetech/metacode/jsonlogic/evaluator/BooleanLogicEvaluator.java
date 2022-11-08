@@ -44,7 +44,10 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         addOperation(ContainsExpression.CONTAINS);
         addOperation(ContainsExpression.NOT_CONTAINS);
 
+        addOperation(RadioExpression.INSTANCE);
+        addOperation(DatetimeExpression.INSTANCE);
         addOperation(MultipleExpression.INSTANCE);
+        addOperation(AttachExpression.INSTANCE);
     }
 
     public Boolean evaluate(Object data) throws JsonLogicEvaluationException {
@@ -172,7 +175,14 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         if (value instanceof Number) {
             return ((Number) value).doubleValue();
         }
-
+        if (value instanceof Map valueMap) {
+            String[] dataTypeKeys = {"datetime", "multiple", "radio", "identifier", "attach"};
+            for (String dataTypeKey : dataTypeKeys) {
+                if (valueMap.containsKey(dataTypeKey)) {
+                    return valueMap.get(dataTypeKey);
+                }
+            }
+        }
         return value;
     }
 
