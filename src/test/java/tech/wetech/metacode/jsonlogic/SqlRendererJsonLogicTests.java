@@ -65,5 +65,21 @@ public class SqlRendererJsonLogicTests {
         assertEquals(11, renderResult.args().size());
     }
 
+    @Test
+    void testPrimitiveContains() throws JsonLogicException {
+        String json = """
+            {
+              "contains": [
+                {
+                  "table_field": ["xuesheng", "created_by"]
+                },
+                [2, 3, 4, 5, 6]
+              ]
+            }
+            """;
+        NamedSqlRenderResult renderResult = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        System.out.println(renderResult);
+    }
+
 
 }

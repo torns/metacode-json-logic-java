@@ -36,7 +36,13 @@ public class ContainsExpression implements SqlRenderExpression {
         Object right = evaluator.evaluate(arguments.get(1), data);
         if (right instanceof List<?> list) {
             if (list.isEmpty()) {
-                return TRUE;
+                return FALSE;
+            }
+            if (list.stream().allMatch(i -> i instanceof String || i instanceof Number)) {
+                String s = left + " in" + list.stream()
+                    .map(i -> ((PlaceholderHandler) data).handle(left.toString(), i))
+                    .collect(Collectors.joining(", ", " (", ") "));
+                return s;
             }
             return list.stream()
                 .map(element -> getSingle((PlaceholderHandler) data, left, right, isTableFieldExpression(arguments.get(1))))
