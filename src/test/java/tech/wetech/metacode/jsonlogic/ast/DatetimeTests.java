@@ -35,4 +35,28 @@ public class DatetimeTests {
         assertEquals(" defaultvaluetest.riqishijian3 = '2022-11-06T20:06:34'", sql);
     }
 
+    @Test
+    void testRange() throws JsonLogicException {
+        String json = """
+            {
+              "and": [
+                {
+                  ">=": [
+                    { "table_field": ["testaaaa", "huiyikaishishijian"] },
+                    { "datetime": "2022-10-01T10:45:12.560" }
+                  ]
+                },
+                {
+                  "<=": [
+                    { "table_field": ["testaaaa", "huiyijieshushijian"] },
+                    { "datetime": "2022-10-31T10:45:12.560" }
+                  ]
+                }
+              ]
+            }
+            """;
+        NamedSqlRenderResult result = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        System.out.println(result);
+    }
+
 }
