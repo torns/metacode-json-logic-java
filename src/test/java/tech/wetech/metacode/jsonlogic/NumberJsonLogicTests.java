@@ -98,21 +98,21 @@ public class NumberJsonLogicTests {
         assertEquals(1.0, result);
     }
 
-    @Test
-    void testMin() throws JsonLogicException {
-        String json = "{\"min\":[1,2,3]}";
-        Number result = JsonLogic.apply(json, NumberJsonLogicEvaluator::new).evaluate(null);
+//    @Test
+//    void testMin() throws JsonLogicException {
+//        String json = "{\"min\":[1,2,3]}";
+//        Number result = JsonLogic.apply(json, NumberJsonLogicEvaluator::new).evaluate(null);
+//
+//        assertEquals(1.0, result);
+//    }
 
-        assertEquals(1.0, result);
-    }
-
-    @Test
-    void testMax() throws JsonLogicException {
-        String json = "{\"max\":[1,2,3]}";
-        Number result = JsonLogic.apply(json, NumberJsonLogicEvaluator::new).evaluate(null);
-
-        assertEquals(3.0, result);
-    }
+//    @Test
+//    void testMax() throws JsonLogicException {
+//        String json = "{\"max\":[1,2,3]}";
+//        Number result = JsonLogic.apply(json, NumberJsonLogicEvaluator::new).evaluate(null);
+//
+//        assertEquals(3.0, result);
+//    }
 
     @Test
     void testDivideSingleNumber() throws JsonLogicException {

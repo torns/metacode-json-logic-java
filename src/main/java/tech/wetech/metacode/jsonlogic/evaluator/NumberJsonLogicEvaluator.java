@@ -3,6 +3,7 @@ package tech.wetech.metacode.jsonlogic.evaluator;
 import tech.wetech.metacode.jsonlogic.JsonLogic;
 import tech.wetech.metacode.jsonlogic.ast.*;
 import tech.wetech.metacode.jsonlogic.evaluator.expressions.MathExpression;
+import tech.wetech.metacode.jsonlogic.evaluator.expressions.TableFieldExpression;
 
 import java.util.*;
 
@@ -24,9 +25,10 @@ public class NumberJsonLogicEvaluator implements JsonLogicEvaluator {
         addOperation(MathExpression.MULTIPLY);
         addOperation(MathExpression.DIVIDE);
         addOperation(MathExpression.MODULO);
-        addOperation(MathExpression.MIN);
-        addOperation(MathExpression.MAX);
-
+        //fixme supports multi function eval
+//        addOperation(MathExpression.MIN);
+//        addOperation(MathExpression.MAX);
+        addOperation(TableFieldExpression.INSTANCE);
         ServiceLoader.load(ExpressionProvider.class).forEach(t -> t.getExpressions(this.getClass()).forEach(this::addOperation));
     }
 
