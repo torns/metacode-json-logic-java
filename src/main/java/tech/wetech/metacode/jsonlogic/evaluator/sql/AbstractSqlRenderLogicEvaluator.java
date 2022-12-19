@@ -79,7 +79,4 @@ public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvalua
         return expressions;
     }
 
-    protected PlaceholderHandler getPlaceholderHandler() {
-        return placeholderHandler;
-    }
 }
