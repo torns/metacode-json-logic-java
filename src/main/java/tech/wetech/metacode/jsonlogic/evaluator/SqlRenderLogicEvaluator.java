@@ -11,13 +11,13 @@ import tech.wetech.metacode.jsonlogic.evaluator.sql.IndexSqlRenderResult;
  */
 public class SqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
 
-
-    public SqlRenderLogicEvaluator(JsonLogicNode root) {
-        super(root, new IndexPlaceholderHandler());
+    public SqlRenderLogicEvaluator() {
+        super();
     }
 
-    public IndexSqlRenderResult evaluate() throws JsonLogicEvaluationException {
-        return new IndexSqlRenderResult((String) evaluate((JsonLogicOperation) root, null), (Object[]) placeholderHandler.getParameters());
+    public IndexSqlRenderResult evaluate(JsonLogicNode root) throws JsonLogicEvaluationException {
+        IndexPlaceholderHandler placeholderHandler = new IndexPlaceholderHandler();
+        return new IndexSqlRenderResult((String) evaluate((JsonLogicOperation) root, placeholderHandler), placeholderHandler.getParameters());
     }
 
     @Override
@@ -36,6 +36,6 @@ public class SqlRenderLogicEvaluator extends AbstractSqlRenderLogicEvaluator {
 
     public Object evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
         JsonLogicExpression expression = getExpression(operation.getOperator());
-        return expression.evaluate(this, operation.getArguments(), placeholderHandler);
+        return expression.evaluate(this, operation.getArguments(), data);
     }
 }

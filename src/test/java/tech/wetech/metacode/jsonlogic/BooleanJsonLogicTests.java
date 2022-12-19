@@ -1,7 +1,6 @@
 package tech.wetech.metacode.jsonlogic;
 
 import org.junit.jupiter.api.Test;
-import tech.wetech.metacode.jsonlogic.evaluator.BooleanLogicEvaluator;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,12 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class BooleanJsonLogicTests {
 
+    private static final JsonLogic jsonLogic = new JsonLogic();
+
     @Test
     void testOr() throws JsonLogicException {
         String json = """
             { "or": [{ ">": [1, 2] }, { "<": [1, 2] }] }
             """;
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(null));
+        assertTrue(jsonLogic.evaluateBoolean(json,null));
     }
 
     @Test
@@ -29,7 +30,7 @@ public class BooleanJsonLogicTests {
         String json = """
             { "and": [{ ">": [3, 2] }, { "<": [1, 2] }] }
             """;
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(null));
+        assertTrue(jsonLogic.evaluateBoolean(json,null));
     }
 
     @Test
@@ -42,7 +43,7 @@ public class BooleanJsonLogicTests {
               ]
             }
             """;
-        assertFalse(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(null));
+        assertFalse(jsonLogic.evaluateBoolean(json,null));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class BooleanJsonLogicTests {
               ]
             }
             """;
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(data));
+        assertTrue(jsonLogic.evaluateBoolean(json,data));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class BooleanJsonLogicTests {
                   ]
                 }
             """;
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(Map.of("user", data)));
+        assertTrue(jsonLogic.evaluateBoolean(json,Map.of("user", data)));
 
     }
 

@@ -3,7 +3,6 @@ package tech.wetech.metacode.jsonlogic.ast;
 import org.junit.jupiter.api.Test;
 import tech.wetech.metacode.jsonlogic.JsonLogic;
 import tech.wetech.metacode.jsonlogic.JsonLogicException;
-import tech.wetech.metacode.jsonlogic.evaluator.NamedSqlRenderLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 
 import java.util.Map;
@@ -16,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class DatetimeTests {
 
+    private static final JsonLogic jsonLogic = new JsonLogic();
 
     @Test
     void testComparison() throws JsonLogicException {
@@ -27,7 +27,7 @@ public class DatetimeTests {
                ]
              }
             """;
-        NamedSqlRenderResult result = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult result = jsonLogic.evaluateNamedSql(json);
         String sql = result.whereClause();
         for (Map.Entry<String, Object> entry : result.args().entrySet()) {
             sql = sql.replace(":" + entry.getKey(), "'" + entry.getValue().toString() + "'");
@@ -55,7 +55,7 @@ public class DatetimeTests {
               ]
             }
             """;
-        NamedSqlRenderResult result = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult result = jsonLogic.evaluateNamedSql(json);
         System.out.println(result);
     }
 

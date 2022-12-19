@@ -1,8 +1,6 @@
 package tech.wetech.metacode.jsonlogic;
 
 import org.junit.jupiter.api.Test;
-import tech.wetech.metacode.jsonlogic.evaluator.NamedSqlRenderLogicEvaluator;
-import tech.wetech.metacode.jsonlogic.evaluator.SqlRenderLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.IndexSqlRenderResult;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 
@@ -15,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class SqlRendererJsonLogicTests {
 
+    private static final JsonLogic jsonLogic = new JsonLogic();
+
     @Test
     void testIndex() throws JsonLogicException {
         String json = """
@@ -26,7 +26,7 @@ public class SqlRendererJsonLogicTests {
               ]
             }
             """;
-        IndexSqlRenderResult renderResult = JsonLogic.apply(json, SqlRenderLogicEvaluator::new).evaluate();
+        IndexSqlRenderResult renderResult = jsonLogic.evaluateIndexSql(json);
         assertNotNull(renderResult.whereClause());
         assertEquals(3, renderResult.args().length);
     }
@@ -60,7 +60,7 @@ public class SqlRendererJsonLogicTests {
               ]
             }
             """;
-        NamedSqlRenderResult renderResult = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult renderResult = jsonLogic.evaluateNamedSql(json);
         assertNotNull(renderResult.whereClause());
         assertEquals(11, renderResult.args().size());
     }
@@ -77,7 +77,7 @@ public class SqlRendererJsonLogicTests {
               ]
             }
             """;
-        NamedSqlRenderResult renderResult = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult renderResult = jsonLogic.evaluateNamedSql(json);
         System.out.println(renderResult);
     }
 

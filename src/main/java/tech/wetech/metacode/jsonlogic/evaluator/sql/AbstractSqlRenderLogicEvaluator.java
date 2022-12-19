@@ -19,15 +19,9 @@ import java.util.List;
  */
 public abstract class AbstractSqlRenderLogicEvaluator implements JsonLogicEvaluator {
 
-    protected final JsonLogicNode root;
-
     protected final List<JsonLogicExpression> expressions = new ArrayList<>();
 
-    protected final PlaceholderHandler placeholderHandler;
-
-    protected AbstractSqlRenderLogicEvaluator(JsonLogicNode root, PlaceholderHandler placeholderHandler) {
-        this.placeholderHandler = placeholderHandler;
-        this.root = root;
+    protected AbstractSqlRenderLogicEvaluator() {
 
         addOperation(LogicSqlRenderExpression.AND);
         addOperation(LogicSqlRenderExpression.OR);

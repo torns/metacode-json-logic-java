@@ -3,8 +3,6 @@ package tech.wetech.metacode.jsonlogic.ast;
 import org.junit.jupiter.api.Test;
 import tech.wetech.metacode.jsonlogic.JsonLogic;
 import tech.wetech.metacode.jsonlogic.JsonLogicException;
-import tech.wetech.metacode.jsonlogic.evaluator.BooleanLogicEvaluator;
-import tech.wetech.metacode.jsonlogic.evaluator.NamedSqlRenderLogicEvaluator;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 
 import java.util.Arrays;
@@ -18,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @date 2022/11/6
  */
 public class MultipleTests {
+
+    private static final JsonLogic jsonLogic = new JsonLogic();
 
     @Test
     void testContains() throws JsonLogicException {
@@ -33,9 +33,9 @@ public class MultipleTests {
               ]
             }
             """;
-        NamedSqlRenderResult result = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult result = jsonLogic.evaluateNamedSql(json);
         assertEquals(" (defaultvaluetest.duoxuan2 in (:defaultvaluetest_duoxuan2_0, :defaultvaluetest_duoxuan2_1)  )", result.whereClause());
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(Map.of("defaultvaluetest", Map.of("duoxuan2", Arrays.asList("天空", "大地", "海洋")))));
+        assertTrue(jsonLogic.evaluateBoolean(json, Map.of("defaultvaluetest", Map.of("duoxuan2", Arrays.asList("天空", "大地", "海洋")))));
     }
 
     @Test
@@ -52,9 +52,9 @@ public class MultipleTests {
               ]
             }
             """;
-        NamedSqlRenderResult result = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult result = jsonLogic.evaluateNamedSql(json);
         assertEquals(" (defaultvaluetest.duoxuan2 in (:defaultvaluetest_duoxuan2_0, :defaultvaluetest_duoxuan2_1)  )", result.whereClause());
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(Map.of("defaultvaluetest", Map.of("duoxuan2", Map.of("multiple", Arrays.asList("天空", "大地", "海洋"))))));
+        assertTrue(jsonLogic.evaluateBoolean(json, Map.of("defaultvaluetest", Map.of("duoxuan2", Map.of("multiple", Arrays.asList("天空", "大地", "海洋"))))));
     }
 
     @Test
@@ -71,9 +71,9 @@ public class MultipleTests {
               ]
             }
             """;
-        NamedSqlRenderResult result = JsonLogic.apply(json, NamedSqlRenderLogicEvaluator::new).evaluate();
+        NamedSqlRenderResult result = jsonLogic.evaluateNamedSql(json);
         assertEquals(" ( defaultvaluetest.duoxuan2 like concat('%', concat(:defaultvaluetest_duoxuan2_0,'%')) )", result.whereClause());
-        assertTrue(JsonLogic.apply(json, BooleanLogicEvaluator::new).evaluate(Map.of("defaultvaluetest", Map.of("duoxuan2", Arrays.asList("天空", "大地", "海洋")))));
+        assertTrue(jsonLogic.evaluateBoolean(json, Map.of("defaultvaluetest", Map.of("duoxuan2", Arrays.asList("天空", "大地", "海洋")))));
     }
 
 }

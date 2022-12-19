@@ -1,12 +1,14 @@
 package tech.wetech.metacode.jsonlogic;
 
-import tech.wetech.metacode.jsonlogic.ast.JsonLogicNode;
 import tech.wetech.metacode.jsonlogic.ast.JsonLogicParser;
-import tech.wetech.metacode.jsonlogic.evaluator.JsonLogicEvaluator;
+import tech.wetech.metacode.jsonlogic.evaluator.*;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.IndexSqlRenderResult;
+import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author cjbi
@@ -14,8 +16,29 @@ import java.util.function.Function;
  */
 public class JsonLogic {
 
-    public static <R extends JsonLogicEvaluator> R apply(String json, Function<JsonLogicNode, R> evaluator) throws JsonLogicException {
-        return evaluator.apply(JsonLogicParser.parse(json));
+    private final Map<Class<? extends JsonLogicEvaluator>, JsonLogicEvaluator> evaluators = new HashMap<>();
+
+    public JsonLogic() {
+        evaluators.put(BooleanLogicEvaluator.class, new BooleanLogicEvaluator());
+        evaluators.put(NumberJsonLogicEvaluator.class, new NumberJsonLogicEvaluator());
+        evaluators.put(NamedSqlRenderLogicEvaluator.class, new NamedSqlRenderLogicEvaluator());
+        evaluators.put(SqlRenderLogicEvaluator.class, new SqlRenderLogicEvaluator());
+    }
+
+    public boolean evaluateBoolean(String json, Object data) throws JsonLogicException {
+        return (boolean) evaluators.get(BooleanLogicEvaluator.class).evaluate(JsonLogicParser.parse(json), data);
+    }
+
+    public Number evaluateNumber(String json, Object data) throws JsonLogicException {
+        return (Number) evaluators.get(NumberJsonLogicEvaluator.class).evaluate(JsonLogicParser.parse(json), data);
+    }
+
+    public NamedSqlRenderResult evaluateNamedSql(String json) throws JsonLogicException {
+        return ((NamedSqlRenderLogicEvaluator) evaluators.get(NamedSqlRenderLogicEvaluator.class)).evaluate(JsonLogicParser.parse(json));
+    }
+
+    public IndexSqlRenderResult evaluateIndexSql(String json) throws JsonLogicException {
+        return ((SqlRenderLogicEvaluator) evaluators.get(SqlRenderLogicEvaluator.class)).evaluate(JsonLogicParser.parse(json));
     }
 
     public static boolean truthy(Object value) {

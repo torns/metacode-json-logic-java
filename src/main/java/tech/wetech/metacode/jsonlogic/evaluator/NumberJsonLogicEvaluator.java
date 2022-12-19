@@ -13,12 +13,9 @@ import java.util.*;
  */
 public class NumberJsonLogicEvaluator implements JsonLogicEvaluator {
 
-    private final JsonLogicNode root;
-
     private final List<JsonLogicExpression> expressions = new ArrayList<>();
 
-    public NumberJsonLogicEvaluator(JsonLogicNode root) {
-        this.root = root;
+    public NumberJsonLogicEvaluator() {
 
         addOperation(MathExpression.ADD);
         addOperation(MathExpression.SUBTRACT);
@@ -30,10 +27,6 @@ public class NumberJsonLogicEvaluator implements JsonLogicEvaluator {
 //        addOperation(MathExpression.MAX);
         addOperation(TableFieldExpression.INSTANCE);
         ServiceLoader.load(ExpressionProvider.class).forEach(t -> t.getExpressions(this.getClass()).forEach(this::addOperation));
-    }
-
-    public Number evaluate(Object data) throws JsonLogicEvaluationException {
-        return (Number) evaluate((JsonLogicOperation) root, data);
     }
 
     public Object evaluatePrimitive(JsonLogicPrimitive<?> primitive) {

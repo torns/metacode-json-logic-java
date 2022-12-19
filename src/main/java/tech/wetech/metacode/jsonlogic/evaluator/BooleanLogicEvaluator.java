@@ -15,18 +15,14 @@ import java.util.Optional;
  */
 public class BooleanLogicEvaluator implements JsonLogicEvaluator {
 
-    private final JsonLogicNode root;
-
     private final List<JsonLogicExpression> expressions = new ArrayList<>();
-
 
     @Override
     public List<JsonLogicExpression> getExpressions() {
         return expressions;
     }
 
-    public BooleanLogicEvaluator(JsonLogicNode root) {
-        this.root = root;
+    public BooleanLogicEvaluator() {
 
         addOperation(LogicExpression.AND);
         addOperation(LogicExpression.OR);
@@ -49,10 +45,6 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         addOperation(MultipleExpression.INSTANCE);
         addOperation(AttachExpression.INSTANCE);
         addOperation(IdentifierExpression.INSTANCE);
-    }
-
-    public Boolean evaluate(Object data) throws JsonLogicEvaluationException {
-        return (Boolean) evaluate((JsonLogicOperation) root, data);
     }
 
     public Object evaluate(JsonLogicOperation operation, Object data) throws JsonLogicEvaluationException {
