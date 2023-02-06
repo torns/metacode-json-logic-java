@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.IndexSqlRenderResult;
 import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -78,6 +80,11 @@ public class SqlRendererJsonLogicTests {
             }
             """;
         NamedSqlRenderResult renderResult = jsonLogic.evaluateNamedSql(json);
+        Map.of("xuesheng_created_by_0",2.0,
+            "xuesheng_created_by_1",3.0,
+            "xuesheng_created_by_2",4.0,
+            "xuesheng_created_by_3",5.0,
+            "xuesheng_created_by_4",6.0).equals(renderResult.args());
         System.out.println(renderResult);
     }
 
