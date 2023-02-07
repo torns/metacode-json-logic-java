@@ -27,6 +27,8 @@ Metacode-json-logic 用来构建复杂的规则，将它们序列化为JSON，�
 </dependency>
 ```
 
+要求Java 17以上版本，低版本不受支持
+
 ### Examples
 
 返回一个布尔值：
