@@ -8,5 +8,6 @@ public enum JsonLogicNodeType {
     PRIMITIVE,
     VARIABLE,
     ARRAY,
-    OPERATION
+    OPERATION,
+    CURRENT_DATETIME,
 }

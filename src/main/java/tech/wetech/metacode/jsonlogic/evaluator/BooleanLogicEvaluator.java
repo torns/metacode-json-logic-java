@@ -30,10 +30,10 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
         addOperation(EqualityExpression.INSTANCE);
         addOperation(InequalityExpression.INSTANCE);
 
-        addOperation(NumericComparisonExpression.GT);
-        addOperation(NumericComparisonExpression.GTE);
-        addOperation(NumericComparisonExpression.LT);
-        addOperation(NumericComparisonExpression.LTE);
+        addOperation(ComparisonExpression.GT);
+        addOperation(ComparisonExpression.GTE);
+        addOperation(ComparisonExpression.LT);
+        addOperation(ComparisonExpression.LTE);
 
         addOperation(TableFieldExpression.INSTANCE);
 
@@ -59,6 +59,10 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
             default:
                 return primitive.getValue();
         }
+    }
+
+    public Object evaluate(JsonLogicCurrentDatetime currentDatetime) {
+        return currentDatetime.now();
     }
 
     public Object evaluate(JsonLogicVariable variable, Object data) throws JsonLogicEvaluationException {
@@ -159,6 +163,8 @@ public class BooleanLogicEvaluator implements JsonLogicEvaluator {
                 return evaluate((JsonLogicVariable) node, data);
             case ARRAY:
                 return evaluate((JsonLogicArray) node, data);
+            case CURRENT_DATETIME:
+                return evaluate((JsonLogicCurrentDatetime) node);
             default:
                 return evaluate((JsonLogicOperation) node, data);
         }

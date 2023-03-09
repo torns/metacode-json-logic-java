@@ -8,6 +8,7 @@ import tech.wetech.metacode.jsonlogic.evaluator.sql.NamedSqlRenderResult;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author cjbi
@@ -57,6 +58,35 @@ public class DatetimeTests {
             """;
         NamedSqlRenderResult result = jsonLogic.evaluateNamedSql(json);
         System.out.println(result);
+    }
+
+    @Test
+    void testCurrentDatetime() throws JsonLogicException {
+        String expression = """
+             {
+               "and": [
+                 {
+                   ">=": [
+                     { "table_field": ["user", "birthday"] },
+                     { "table_field": ["user", "birthday2"] }
+                   ]
+                 },
+                 {
+                   "<=": [
+                     { "table_field": ["user", "birthday"] },
+                     { "current_datetime": [] }
+                   ]
+                 }
+               ]
+             }
+            """;
+        Map<String, Map<String, String>> data = Map.of("user",
+            Map.of(
+                "birthday", "2000-10-01T10:45:12.560",
+                "birthday2", "1999-10-01T10:45:12.560"
+            )
+        );
+        assertTrue(jsonLogic.evaluateBoolean(expression, data));
     }
 
 }
