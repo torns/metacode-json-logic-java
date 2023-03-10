@@ -89,4 +89,28 @@ public class DatetimeTests {
         assertTrue(jsonLogic.evaluateBoolean(expression, data));
     }
 
+    @Test
+    void testDatetimeOfVar() throws JsonLogicException {
+        String expression = """
+             {
+               "and": [
+                 {
+                   ">=": [
+                     { "var": ["value"] },
+                     { "datetime": "2000-10-01T10:45:12.560" }
+                   ]
+                 },
+                 {
+                   "<=": [
+                     { "var": ["value"] },
+                     { "current_datetime": [] }
+                   ]
+                 }
+               ]
+             }
+            """;
+        Map<String, Map<String, String>> data = Map.of("value", Map.of("datetime", "2012-10-01T10:45:12.560"));
+        assertTrue(jsonLogic.evaluateBoolean(expression, data));
+    }
+
 }
